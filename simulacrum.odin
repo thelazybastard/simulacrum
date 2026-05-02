@@ -4,6 +4,7 @@ import "core:path/filepath"
 import "base:runtime"
 import "core:fmt"
 import "core:os"
+import "core:strings"
 
 main :: proc() {
     arguments: []string = os.args
@@ -44,6 +45,11 @@ changeName :: proc(args1: string, args2: string, preview: bool) {
         path, err := os.walker_error(&walker)
         if err != nil {
             fmt.printfln("error at %s: %s", path, err)
+            continue
+        }
+
+        if item.type == .Directory && strings.has_prefix(item.name, ".") {
+            os.walker_skip_dir(&walker)
             continue
         }
 
