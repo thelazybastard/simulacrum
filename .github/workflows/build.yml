@@ -1,54 +1,61 @@
-name: Multi-Platform Build
-permissions:
-  contents: write      
-  pull-requests: read  
+name: Build and Release
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags: [ "v*.*.*" ] 
+
+permissions:
+  contents: write
 
 jobs:
   build:
     strategy:
-      fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
             artifact_name: simulacrum-linux
-            binary_extension: ""
-          - os: windows-2025-vs2026 
-            artifact_name: simulacrum-windows
-            binary_extension: ".exe"
-          - os: macos-15 
+          - os: windows-2025-vs2026
+            artifact_name: simulacrum-windows.exe
+          - os: macos-15
             artifact_name: simulacrum-macos
-            binary_extension: ""
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Odin
-        uses: laytan/setup-odin@v2
+      - uses: actions/checkout@v4
+      - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install Dependencies (Linux)
+      
+      - name: Install Linux Deps
         if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgl1-mesa-dev xorg-dev 
+        run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
 
-      - name: Build Project
-        run: |        
-          odin build . -out:${{ matrix.artifact_name }}${{ matrix.binary_extension }} -o:speed
+      - name: Build
+        run: odin build . -out:${{ matrix.artifact_name }} -o:speed
 
-      - name: Upload Artifact
+      - name: Upload for Release
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: ${{ matrix.artifact_name }}${{ matrix.binary_extension }}
-          if-no-files-found: error
+          path: ${{ matrix.artifact_name }}
+
+  release:
+    needs: build 
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./binaries
+          merge-multiple: true
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./binaries/*
+          generate_release_notes: true 
+          draft: false
+          prerelease: false
