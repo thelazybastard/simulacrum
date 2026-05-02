@@ -1,6 +1,6 @@
 # Simulacrum
 
-A fast, recursive file renaming utility written in Odin. Rename files across your entire directory tree with a preview before you commit to the changes.
+A fast, recursive batch file renaming utility written in Odin. Rename files across your entire directory tree with a preview before you commit to the changes. 
 
 ## Features
 
