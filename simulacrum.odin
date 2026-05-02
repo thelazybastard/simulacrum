@@ -56,11 +56,11 @@ changeName :: proc(args1: string, args2: string, preview: bool) {
         if preview {
             if item.name == args1 {
                 fmt.printfln("%s -> %s", item.fullpath, args2)
+                
             }
         } else {
             if item.name == args1 {
                 new_path, _ := filepath.join([]string{filepath.dir(item.fullpath), args2}, context.temp_allocator)
-                fmt.printfln(new_path)
                 err := os.rename(item.fullpath, new_path)
                 if err != nil {
                     fmt.printfln("Can't rename file: %v", err)
