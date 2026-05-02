@@ -26,8 +26,13 @@ Pre-built binaries for Windows, macOS, and Linux are available on the [Releases]
    chmod +x simulacrum-*
    ```
 4. Optionally, add it to your `PATH` for system-wide access:
-   - **macOS/Linux**: Move to `/usr/local/bin/` or add to your `PATH` environment variable
-   - **Windows**: Add the binary's directory to your `PATH` environment variable
+   - **macOS/Linux**: Move to `/usr/local/bin/` and rename it:
+     ```bash
+     mv simulacrum-macos /usr/local/bin/simulacrum
+     # or for Linux:
+     mv simulacrum-linux /usr/local/bin/simulacrum
+     ```
+   - **Windows**: Move to your desired location and add that directory to your `PATH` environment variable, or rename to `simulacrum.exe`
 
 ## Build from Source
 
