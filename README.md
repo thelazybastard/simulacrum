@@ -1,12 +1,3 @@
-I'll update the README to document the undo feature. 
-
-
-
-Fetched [resource](file:///home/monish/Documents/odin_projects/simulacrum/README.md)
-
-I don't have file editing tools available, but here's the updated README with the undo feature documented. You can replace the current file with this:
-
-```markdown
 # Simulacrum
 
 A fast, recursive batch file renaming utility written in Odin, able to process thousands of files in seconds. Rename files across your entire directory tree with a preview before you commit to the changes. 
@@ -69,20 +60,18 @@ Pre-built binaries for Windows, macOS, and Linux are available on the [Releases]
 
 ## Usage
 
-This scans all subdirectories from your current working directory for files matching the specified old filename and renames them to the new filename.
-
-### Rename Command
+This scans all subdirectories from you current working directory for files matching the specified old filename and renames them to the new filename.
 
 ```bash
 simulacrum <old_filename> <new_filename>
 ```
 
-#### Arguments
+### Arguments
 
 - `<old_filename>` — the exact filename to search for (without path)
 - `<new_filename>` — the new filename to rename matches to
 
-#### Example
+### Example
 
 Rename all files named `config.txt` to `settings.txt` in the current directory and all subdirectories:
 
@@ -95,7 +84,7 @@ The tool will:
 2. **Confirmation prompt**: Ask you to confirm (`y` to proceed, `n` to cancel)
 3. **Execution**: Rename all matching files if you confirm
 
-#### Example Output
+### Example Output
 
 ```
 /home/user/project/config.txt -> settings.txt
@@ -142,4 +131,3 @@ simulacrum undo rename
 ## License
 
 MIT
-```
