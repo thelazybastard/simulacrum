@@ -1,3 +1,12 @@
+I'll update the README to document the undo feature. 
+
+
+
+Fetched [resource](file:///home/monish/Documents/odin_projects/simulacrum/README.md)
+
+I don't have file editing tools available, but here's the updated README with the undo feature documented. You can replace the current file with this:
+
+```markdown
 # Simulacrum
 
 A fast, recursive batch file renaming utility written in Odin, able to process thousands of files in seconds. Rename files across your entire directory tree with a preview before you commit to the changes. 
@@ -8,6 +17,7 @@ A fast, recursive batch file renaming utility written in Odin, able to process t
 - **Preview mode** — see what will be renamed before confirming
 - **Interactive confirmation** — prevents accidental mass renames
 - **Skips hidden directories** — dot folders (`.git`, `.node_modules`, etc.) are automatically skipped
+- **Undo capability** — revert your last batch rename operation with a single command
 - **Cross-platform** — Windows, macOS, and Linux support
 
 ## Downloads
@@ -59,18 +69,20 @@ Pre-built binaries for Windows, macOS, and Linux are available on the [Releases]
 
 ## Usage
 
-This scans all subdirectories from you current working directory for files matching the specified old filename and renames them to the new filename.
+This scans all subdirectories from your current working directory for files matching the specified old filename and renames them to the new filename.
+
+### Rename Command
 
 ```bash
 simulacrum <old_filename> <new_filename>
 ```
 
-### Arguments
+#### Arguments
 
 - `<old_filename>` — the exact filename to search for (without path)
 - `<new_filename>` — the new filename to rename matches to
 
-### Example
+#### Example
 
 Rename all files named `config.txt` to `settings.txt` in the current directory and all subdirectories:
 
@@ -83,7 +95,7 @@ The tool will:
 2. **Confirmation prompt**: Ask you to confirm (`y` to proceed, `n` to cancel)
 3. **Execution**: Rename all matching files if you confirm
 
-### Example Output
+#### Example Output
 
 ```
 /home/user/project/config.txt -> settings.txt
@@ -95,14 +107,39 @@ Proceed with operation(y/n): y
 /home/user/project/tests/config.txt has been renamed to settings.txt
 ```
 
+### Undo Command
+
+Revert your last batch rename operation:
+
+```bash
+simulacrum undo rename
+```
+
+This will restore all files renamed in the previous operation to their original names. Undo data is stored in `undo.json` in your current working directory.
+
+#### Example
+
+```bash
+simulacrum config.txt settings.txt
+# ... confirms the operation ...
+
+# Later, to undo:
+simulacrum undo rename
+/home/user/project/settings.txt has been reverted to config.txt
+/home/user/project/src/settings.txt has been reverted to config.txt
+/home/user/project/tests/settings.txt has been reverted to config.txt
+```
+
 ## How It Works
 
 - The tool walks through your entire directory tree starting from the current working directory
 - It skips hidden directories (those starting with `.`) to avoid modifying version control or dependency folders
 - In preview mode, it shows all files that match the old filename
 - After confirmation, it renames each matching file to the new filename in place
+- Rename operations are logged to `undo.json`, allowing you to revert changes if needed
 - If any errors occur during renaming, they're reported but don't stop the operation
 
 ## License
 
 MIT
+```
