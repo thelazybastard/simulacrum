@@ -69,6 +69,8 @@ changeName :: proc(args1: string, args2: string, preview: bool) {
                 }
             }
         } 
-    }    
+    }   
+    path, error := os.walker_error(&walker)
+    if err != nil do fmt.printfln("failed walking %s: %v", path, err)
 }
 
