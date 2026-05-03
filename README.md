@@ -104,7 +104,7 @@ Revert your last batch rename operation:
 simulacrum undo rename
 ```
 
-This will restore all files renamed in the previous operation to their original names. Undo data is stored in `undo.json` in your current working directory.
+This will restore all files renamed in the previous operation to their original names. Undo data is stored in `undo.json` in the directory where you have your binary stored. 
 
 #### Example
 
